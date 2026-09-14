@@ -1,3 +1,7 @@
+// SPDX License Indentifier: GPL-3.0 
+//Copyright (C) 2026 Pedro Emanuel
+//Alu64 Module, file: core/instruction/i386/alu64.v
+
 'include "sub.v"
 'include "xor.v"
 
