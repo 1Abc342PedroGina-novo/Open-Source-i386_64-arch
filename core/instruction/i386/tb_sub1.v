@@ -1,4 +1,5 @@
-// x64 verificate subtract instru
+// SPDX License Indentifier: GPL-3.0 
+// x64 verificate subtract instruction and generate dump 
 `timescale 10ps/1ps
 `include "sub.v" // Inclui o seu arquivo com os módulos SUBx1 e SUBx64
 
