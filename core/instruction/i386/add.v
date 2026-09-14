@@ -41,13 +41,8 @@ generate
 endgenerate
 
 // Lógica de Overflow (OF) perfeitamente implementada por portas primitivas
-wire OF1, OF2, na, nb, ns;
-not(ns, sum[63]);
-not(nb, B[63]);
-not(na, A[63]);
-and(OF1, na, nb, sum[63]);
-and(OF2, A[63], B[63], ns);
-or(OF, OF1, OF2);
+   assign OF = (A[63] == B[63]) && (sum[63] != A[63]);
+    assign carry_out = carry[64];
 
 // Atribuição do Carry Out final
 assign carry_out = carry[64];
