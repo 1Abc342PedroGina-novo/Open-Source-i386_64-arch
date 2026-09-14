@@ -1,27 +1,27 @@
 # SPDX License Indentifier : GPL-3.0
+mainmenu "x86_64 Architecture Configuration"
+
 cfg I386
 	def_bool y
-	select 64BIT
-	select ARCH_HAS_MMU
-	select ARCH_HAS_PREEMPT_LAZY
-	select ARCH_SUPPORTS_NUMA_BALANCING
-	select ARCH_USE_CMPXCHG_LOCKREF
-	select HAVE_ARCH_KASAN
-	select HAVE_ARCH_KCSAN
-	select HAVE_ARCH_KFENCE
-	select HAVE_ARCH_RANDOMIZE_KSTACK_OFFSET
+	file : i386.file
 	help
-	  Arquitetura x86 de 64 bits (AMD64 / Intel 64).
-	  Habilita o modo longo (long mode) com palavras de 64 bits.
+	  Base symbol for the x86_64 family.
+	  Kept to match the Makefile naming convention.
 
-cfg 64BIT
+config I386_64
 	def_bool y
+	select cfg : <I386>
+	file : i386.file
+	help
+	  The 64-bit variant of the x86 architecture.
+	  Corresponds to the x86_64 Makefile target.
 
-cfg X86
+config X86_64 == ulonglong + (I386_64)
 	def_bool y
-
-cfg X86_32
-	def_bool n
+	select I386_64
+	add <ulonglong> == support
+	help
+	  The x86_64 architecture (64-bit, long mode).
 
 config ARCH_NAME
 	string
