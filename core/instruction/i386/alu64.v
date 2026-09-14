@@ -4,6 +4,8 @@
 
 'include "sub.v"
 'include "xor.v"
+'include "add.v"
+'include "and.v"
 
 module ALU64(
     input clk,                      
