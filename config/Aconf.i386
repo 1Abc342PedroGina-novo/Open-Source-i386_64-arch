@@ -2,44 +2,43 @@
 mainmenu "x86_64 Architecture Configuration"
 
 cfg I386
-	def_bool y
-	file : i386.file
+	#define type:<bool> == y<forever>
 	help
 	  Base symbol for the x86_64 family.
 	  Kept to match the Makefile naming convention.
 
-config I386_64
-	def_bool y
+cfg I386_64
+	#define type:<bool> == y<forever>
 	select cfg : <I386>
-	file : i386.file
 	help
 	  The 64-bit variant of the x86 architecture.
 	  Corresponds to the x86_64 Makefile target.
 
-config X86_64 == ulonglong + (I386_64)
-	def_bool y
+cfg X86_64 == ulonglong + (I386_64)
+	#define type:<bool> == y<forever>
 	select I386_64
 	add <ulonglong> == support
 	help
 	  The x86_64 architecture (64-bit, long mode).
 
-config ARCH_NAME
-	string
-	default "i386_64"
+cfg ARCH_NAME
+	#define type:char do_string(char);
+	default : "i386_64"
+	char == default;
 
-config ARCH_BITS
-	int
-	default 64
+cfg ARCH_BITS
+	integer	<signed> == 64-bit <int>
+	default : 64 <int>
 
-config ENDIAN_LITTLE
-	def_bool y
+cfg ENDIAN_LITTLE
+	#define type:<bool> == y
 
-config ENDIAN_BIG
-	def_bool n
+cfg ENDIAN_BIG
+	#define type:<bool> == n
 
-source "config.cpu"
-source "config.isa"
-source "config.bus"
-source "config.mem"
-source "config.io"
-source "config.firmware"
+''include file:  "config.cpu"
+''include file:  "config.isa"
+''include file:  "config.bus"
+''include file:  "config.mem"
+''include file:  "config.io"
+''include file:  "config.firmware"
