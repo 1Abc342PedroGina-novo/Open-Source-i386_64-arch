@@ -23,13 +23,14 @@ or O1(borrow_out, w3, w5);
 endmodule 
 
 
-module SUBx64(num1, num2, diff, overflow);
+module SUBx64(num1, num2, diff, overflow, carry_out); // Adicionado carry_out (importante para o x64)
 
 input signed [63:0] num1, num2;
 output signed [63:0] diff;
 output overflow;
+output carry_out; // No x64, o último borrow funciona como o Carry/Borrow Flag (CF)
 
-// Declaração do vetor de borrows (vai de 0 até 64)
+// Declaração do vetor de borrows
 wire [64:0] b; 
 
 assign b[0] = 1'b0;
@@ -37,7 +38,7 @@ assign b[0] = 1'b0;
 genvar x;
 generate 
     for(x = 0; x < 64; x = x + 1)
-    begin : sub_loop // OBRIGATÓRIO: Nomear o bloco interno do generate
+    begin : sub_loop
         SUBx1 M1(
             .A(num1[x]), 
             .B(num2[x]), 
@@ -48,8 +49,11 @@ generate
     end
 endgenerate
 
-// O overflow em subtratores com sinal também pode ser validado 
-// comparando o sinal dos blocos finais
-xor X1(overflow, b[64], b[63]);
+// O último borrow (b[64]) é o próprio Carry Flag (CF) do x64 para unsigned
+assign carry_out = b[64];
+
+// CORREÇÃO DO OVERFLOW (OF):
+// Ocorre se: (Sinal de num1 != Sinal de num2) E (Sinal do resultado != Sinal de num1)
+assign overflow = (num1[63] ^ num2[63]) & (diff[63] ^ num1[63]);
 
 endmodule
