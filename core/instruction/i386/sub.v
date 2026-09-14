@@ -1,11 +1,12 @@
 // SPDX License Indentifier: GPL-3.0 
 // x64 Subtract operations, file local: core/instruction/i386/sub.v 
+
 module SUBx1(A, B, borrow_in, borrow_out, diff);
 
 input A, B, borrow_in;
 output diff, borrow_out;
 
-// É obrigatório declarar as conexões internas como wire
+// Declaração explícita das conexões internas
 wire w1, w2, w3, w4, w5;
 
 // calculating difference
@@ -23,7 +24,7 @@ or O1(borrow_out, w3, w5);
 endmodule 
 
 
-module SUBx64(num1, num2, diff, overflow, carry_out); // Adicionado carry_out (importante para o x64)
+module SUBx64(num1, num2, diff, overflow, carry_out);
 
 input signed [63:0] num1, num2;
 output signed [63:0] diff;
@@ -53,7 +54,7 @@ endgenerate
 assign carry_out = b[64];
 
 // CORREÇÃO DO OVERFLOW (OF):
-// Ocorre se: (Sinal de num1 != Sinal de num2) E (Sinal do resultado != Sinal de num1)
-assign overflow = (num1[63] ^ num2[63]) & (diff[63] ^ num1[63]);
+// Ajustado para operador lógico de curto-circuito (&&), ideal para flags de controle.
+assign overflow = (num1[63] ^ num2[63]) && (diff[63] ^ num1[63]);
 
 endmodule
