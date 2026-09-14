@@ -1,34 +1,33 @@
 // SPDX License Indentifier : GPL-3.0 */
 // xor - x64 instruction, local: core/i386/xor.v
 // 1. Módulo base de 1 bit (Primitivo ou Comportamental)
-module xor_1bit (
-    input a,
-    input b,
-    output out
-);
-    xor (out, a, b); // Usa a porta nativa do Verilog
+// Módulo base de 1 bit para operação lógica
+module XORx1(A, B, out);
+    input A, B;
+    output out;
+
+    // Porta primitiva nativa do Verilog
+    xor X1(out, A, B);
 endmodule
 
-// 2. Módulo principal de 64 bits que gera a estrutura
-module XORx64 (
-    input signed [63:0] num1,
-    input signed [63:0] num2,
-    output signed [63:0] result
-);
 
-    // O genvar deve ser declarado para o bloco de geração
-    genvar i;
+// Módulo principal x64 estruturado por geração
+module XORx64(num1, num2, result);
 
-    // Bloco generate explícito com labels obrigatórios pelas normas modernas
-    generate
-        for (i = 0; i < 64; i = i + 1) begin : g_xor_block
-            // Instanciação estrutural do submódulo bit a bit
-            xor_1bit bit_instance (
-                .a(num1[i]),
-                .b(num2[i]),
-                .out(result[i])
-            );
-        end
-    endgenerate
+input signed [63:0] num1, num2;
+output signed [63:0] result;
+
+genvar x;
+generate
+    for(x = 0; x < 64; x = x + 1)
+    begin : xor_loop
+        // Instanciação e mapeamento físico bit a bit
+        XORx1 M1(
+            .A(num1[x]),
+            .B(num2[x]),
+            .out(result[x])
+        );
+    end
+endgenerate
 
 endmodule
