@@ -1,3 +1,6 @@
+// SPDX License Indentifier: GPL-3.0 
+//Copyright (C) 2026 Pedro Emanuel
+//Test Alu64 Module
 `timescale 1ns/1ps
 'include "alu64.v"
 
