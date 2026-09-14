@@ -1,3 +1,4 @@
+// SPDX License Indentifier: GPL-3.0 
 // x64 Subtract operations, file local: core/instruction/i386/sub.v 
 module SUBx1(A, B, borrow_in, borrow_out, diff);
 
